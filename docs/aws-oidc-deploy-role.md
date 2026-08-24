@@ -26,7 +26,7 @@ La cuenta debe tener previamente el proveedor OIDC de GitHub Actions para
         "StringEquals": {
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
           "token.actions.githubusercontent.com:sub": [
-            "repo:capacitacion-gtech-2026@317968382/proyecto_2_capacitacion@1324324405:ref:refs/heads/docker-ECR",
+            "repo:capacitacion-gtech-2026@317968382/proyecto_2_capacitacion@1324324405:ref:refs/heads/testing",
             "repo:capacitacion-gtech-2026@317968382/proyecto_2_capacitacion@1324324405:ref:refs/heads/main"
           ]
         }
@@ -101,3 +101,14 @@ Agregar la siguiente política inline al rol `proyecto-2-app-deploy`:
 
 No se requieren `AdministratorAccess`, claves de acceso permanentes, SSH ni
 permisos para crear EC2 o ECR.
+
+## Ramas y despliegues
+
+- `dev`: ejecuta únicamente los jobs de calidad.
+- `testing`: publica la imagen y despliega `app-staging` en el puerto `3001`.
+- `main`: publica la imagen y despliega `app-production` en el puerto `3000`.
+
+La EC2 debe estar encendida y tener la etiqueta
+`Name=proyecto-2-application-server`. El workflow imprime únicamente los claims
+OIDC no secretos (`aud`, `sub`, `repository` y `ref`) antes de asumir el rol para
+facilitar el diagnóstico de la relación de confianza.
